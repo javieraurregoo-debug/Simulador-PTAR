@@ -13,6 +13,16 @@ El proyecto se organiza en cuatro fases:
 | 3 | Modelado de DBO₅, DQO y SST | [`docs/03_modelos_dbo_dqo_sst.md`](docs/03_modelos_dbo_dqo_sst.md) |
 | 4 | Visualización 3D con Three.js | [`docs/04_visualizacion_3d.md`](docs/04_visualizacion_3d.md) |
 
+## Demo en línea
+
+- **Aplicación:** <https://simulador-ptar.vercel.app>
+- **API interactiva (Swagger):** <https://simulador-ptar.vercel.app/docs>
+- **Repositorio:** <https://github.com/javieraurregoo-debug/Simulador-PTAR>
+
+Desplegada en Vercel: FastAPI corre como función serverless y el frontend se
+sirve como build estático. La primera simulación de una instancia en frío puede
+tardar 20-30 s; las siguientes se atienden desde la caché LRU.
+
 ## 1. Funcionalidades
 
 - **Simulación física y biológica** del tren de agua y del tren de lodos.
@@ -142,6 +152,27 @@ cd ..\backend
 FastAPI sirve el bundle en <http://127.0.0.1:8000/app/> y la API en `/api`.
 Si se despliega el frontend por separado, definir `VITE_API_URL` con la URL del
 backend antes de compilar.
+
+### 5.4 Despliegue en Vercel
+
+El proyecto ya está publicado en producción:
+
+- Aplicación: <https://simulador-ptar.vercel.app>
+- Documentación de la API: <https://simulador-ptar.vercel.app/docs>
+
+`main.py` es el entrypoint que Vercel detecta como FastAPI, `requirements.txt`
+contiene solo las dependencias de runtime y `vercel.json` define el build del
+frontend y el límite de 60 s de la función. El archivo `.vercelignore` excluye
+`.venv`, `node_modules`, `dist` y artefactos de prueba.
+
+Para publicar cambios después de la primera vez:
+
+```powershell
+.\scripts\deploy_vercel.ps1
+```
+
+El script usa la sesión de `vercel login` o un token en `VERCEL_TOKEN`, sube el
+código por la API oficial y espera a que el despliegue quede `READY`.
 
 ## 6. Pruebas
 

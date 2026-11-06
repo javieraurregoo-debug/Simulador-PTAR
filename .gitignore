@@ -29,6 +29,9 @@ Thumbs.db
 .vscode/
 *.swp
 
+# Vercel
+.vercel/
+
 # Logs
 *.log
 
