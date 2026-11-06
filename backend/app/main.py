@@ -15,7 +15,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import router
@@ -53,13 +53,7 @@ app.include_router(router)
 @app.get("/", include_in_schema=False)
 def raiz():
     if FRONTEND_DIST.exists():
-        return JSONResponse(
-            {
-                "servicio": "PTAR Digital",
-                "mensaje": "Interfaz disponible en /app/",
-                "docs": "/docs",
-            }
-        )
+        return RedirectResponse(url="/app/", status_code=307)
     return {
         "servicio": "PTAR Digital",
         "version_modelo": VERSION_MODELO,
